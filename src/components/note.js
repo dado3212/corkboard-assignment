@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Draggable from 'react-draggable';
+import marked from 'marked';
+import Textarea from 'react-textarea-autosize';
 
 class Note extends Component {
   constructor(props) {
@@ -7,16 +9,18 @@ class Note extends Component {
 
     this.state = {
       isEditing: false,
+      text: this.props.note.text,
     };
 
     // Binding statements
     this.onInputChange = this.onInputChange.bind(this);
     this.onDeleteClick = this.onDeleteClick.bind(this);
     this.onEditClick = this.onEditClick.bind(this);
+    this.onDrag = this.onDrag.bind(this);
   }
 
   onInputChange(event) {
-    this.setState({ searchterm: event.target.value });
+    this.setState({ text: event.target.value });
   }
 
   onDeleteClick(event) {
@@ -24,7 +28,12 @@ class Note extends Component {
   }
 
   onEditClick(event) {
+    this.props.updateContent(this.state.text);
     this.setState({ isEditing: !this.state.isEditing });
+  }
+
+  onDrag(event, ui) {
+    this.props.updatePosition(ui.x, ui.y);
   }
 
   renderEditButton() {
@@ -38,12 +47,14 @@ class Note extends Component {
   renderContent() {
     if (this.state.isEditing) {
       return (
-        <textarea>
-          {this.props.note.text}
-        </textarea>
+        <div className="content">
+          <Textarea onChange={this.onInputChange}>
+            {this.state.text}
+          </Textarea>
+        </div>
       );
     } else {
-      return this.props.note.text;
+      return <div className="content" dangerouslySetInnerHTML={{ __html: marked(this.state.text) }} />;
     }
   }
 
@@ -51,6 +62,11 @@ class Note extends Component {
     return (
       <Draggable
         handle=".fa-arrows-alt"
+        defaultPosition={null}
+        position={{ x: this.props.note.x, y: this.props.note.y }}
+        onStart={this.onStartDrag}
+        onDrag={this.onDrag}
+        onStop={this.onStopDrag}
       >
         <div className="note">
           <div className="navbar">
@@ -63,9 +79,7 @@ class Note extends Component {
               <i className="fa fa-arrows-alt" />
             </div>
           </div>
-          <div className="content">
           {this.renderContent()}
-          </div>
         </div>
       </Draggable>
     );

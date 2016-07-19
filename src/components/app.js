@@ -12,8 +12,16 @@ class App extends Component {
 
     // init component state here
     this.state = {
-      notes: Immutable.Map(),
-      id: 0,
+      notes: Immutable.Map({
+        0: {
+          title: 'Title',
+          text: '### This is ~text~!',
+          x: 0,
+          y: 0,
+          zIndex: 0,
+        },
+      }),
+      id: 1,
     };
   }
 
@@ -36,9 +44,21 @@ class App extends Component {
     });
   }
 
+  updatePosition(x, y, id) {
+    this.setState({
+      notes: this.state.notes.update(id, (n) => { return Object.assign({}, n, { x, y }); }),
+    });
+  }
+
+  updateContent(text, id) {
+    this.setState({
+      notes: this.state.notes.update(id, (n) => { return Object.assign({}, n, { text }); }),
+    });
+  }
+
   allNotes() {
     return this.state.notes.map((key, value) => {
-      return <Note note={key} delete={() => this.deleteNote(value)} />;
+      return <Note note={key} delete={() => this.deleteNote(value)} updatePosition={(x, y) => this.updatePosition(x, y, value)} updateContent={(text) => this.updateContent(text, value)} />;
     });
   }
 
