@@ -99,8 +99,9 @@ class App extends Component {
   }
 
   allNotes() {
-    return this.state.notes.map((note, id) => {
+    return this.state.notes.valueSeq().map((note, id) => {
       return (<Note
+        key={id}
         note={note}
         delete={() => this.deleteNote(id)}
         updatePosition={(x, y) => this.updatePosition(x, y, id)}
