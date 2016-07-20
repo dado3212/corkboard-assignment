@@ -5,6 +5,9 @@ import Immutable from 'immutable';
 import NoteAdder from './note_adder';
 import Note from './note';
 
+// Firebase import
+import firebase from './firebase';
+
 // example class based component (smart component)
 class App extends Component {
   constructor(props) {
@@ -44,6 +47,14 @@ class App extends Component {
       id: 3,
       zIndex: 2,
     };
+  }
+
+  componentDidMount() {
+    firebase.fetchNotes((snapshot) => {
+      this.setState({
+        notes: Immutable.Map(snapshot.val()),
+      });
+    });
   }
 
   createNote(title) {
