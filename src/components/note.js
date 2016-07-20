@@ -78,17 +78,17 @@ class Note extends Component {
         minWidth={200}
         minHeight={125}
         zIndex={this.props.note.zIndex}
-        dragHandlerClassName=".fa-arrows-alt"
+        dragHandlerClassName=".pin"
       >
         <div className="note">
           <div className="navbar">
-            <div className="left">
+            <i className="pin" />
+            <div className="bar">
               <span className="title">{this.props.note.title}</span>
-              <i onClick={this.onDeleteClick} className="fa fa-trash-o" />
-              {this.renderEditButton()}
-            </div>
-            <div className="right">
-              <i className="fa fa-arrows-alt" />
+              <div className="controls">
+                <i onClick={this.onDeleteClick} className="fa fa-trash-o" />
+                {this.renderEditButton()}
+              </div>
             </div>
           </div>
           {this.renderContent()}

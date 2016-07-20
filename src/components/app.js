@@ -14,17 +14,35 @@ class App extends Component {
     this.state = {
       notes: Immutable.Map({
         0: {
-          title: 'Title',
-          text: '### This is ~text~!',
+          title: 'Hello!',
+          text: '![](https://media.giphy.com/media/xT0BKpqAaJczduXXJ6/giphy.gif)',
           x: 0,
-          y: 15,
+          y: 25,
           width: 300,
-          height: 150,
+          height: 185,
           zIndex: 0,
         },
+        1: {
+          title: 'Resize me!',
+          text: 'Drag from any of my sides or corners!',
+          x: 410,
+          y: 50,
+          width: 300,
+          height: 175,
+          zIndex: 1,
+        },
+        2: {
+          title: 'Drag me!',
+          text: 'Just grab my thumbtack to pull me around!  Don\'t worry, I\'ll stay in front of the other post-its while you\'re working with me!',
+          x: 600,
+          y: 250,
+          width: 300,
+          height: 180,
+          zIndex: 2,
+        },
       }),
-      id: 1,
-      zIndex: 0,
+      id: 3,
+      zIndex: 2,
     };
   }
 

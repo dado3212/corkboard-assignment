@@ -26,7 +26,7 @@ class NoteAdder extends Component {
     return (
       <form id="note-adder" onSubmit={this.addNote}>
         <input placeholder="new note title" onChange={this.onInputChange} value={this.state.title} />
-        <button type="submit">Submit</button>
+        <button type="submit">Create</button>
       </form>
     );
   }

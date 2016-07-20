@@ -21,6 +21,7 @@ module.exports = {
       test: /\.scss/,
       loader: ExtractTextPlugin.extract('style-loader', 'css-loader!sass-loader!postcss-loader'),
     },
+    { test: /\.(png|jpg)$/, loader: 'url-loader?limit=100000&name=../[hash].[ext]' },
       // You could also use other loaders the same way. I. e. the autoprefixer-loader
     ],
   },
