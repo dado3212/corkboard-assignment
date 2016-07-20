@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import Draggable from 'react-draggable';
 import marked from 'marked';
-import Textarea from 'react-textarea-autosize';
+import ResizableAndMovable from 'react-resizable-and-movable';
 
 class Note extends Component {
   constructor(props) {
@@ -17,6 +16,8 @@ class Note extends Component {
     this.onDeleteClick = this.onDeleteClick.bind(this);
     this.onEditClick = this.onEditClick.bind(this);
     this.onDrag = this.onDrag.bind(this);
+    this.onResize = this.onResize.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
 
   onInputChange(event) {
@@ -33,7 +34,15 @@ class Note extends Component {
   }
 
   onDrag(event, ui) {
-    this.props.updatePosition(ui.x, ui.y);
+    this.props.updatePosition(ui.position.left, ui.position.top);
+  }
+
+  onResize(event, ui) {
+    this.props.updateSize(ui.width, ui.height);
+  }
+
+  onClick(event) {
+    this.props.updateLayers();
   }
 
   renderEditButton() {
@@ -48,9 +57,7 @@ class Note extends Component {
     if (this.state.isEditing) {
       return (
         <div className="content">
-          <Textarea onChange={this.onInputChange}>
-            {this.state.text}
-          </Textarea>
+          <textarea onChange={this.onInputChange} value={this.state.text} />
         </div>
       );
     } else {
@@ -60,13 +67,18 @@ class Note extends Component {
 
   render() {
     return (
-      <Draggable
-        handle=".fa-arrows-alt"
-        defaultPosition={null}
-        position={{ x: this.props.note.x, y: this.props.note.y }}
-        onStart={this.onStartDrag}
+      <ResizableAndMovable
+        onResize={this.onResize}
         onDrag={this.onDrag}
-        onStop={this.onStopDrag}
+        onClick={this.onClick}
+        x={this.props.note.x}
+        y={this.props.note.y}
+        width={this.props.note.width}
+        height={this.props.note.height}
+        minWidth={200}
+        minHeight={125}
+        zIndex={this.props.note.zIndex}
+        dragHandlerClassName=".fa-arrows-alt"
       >
         <div className="note">
           <div className="navbar">
@@ -81,7 +93,7 @@ class Note extends Component {
           </div>
           {this.renderContent()}
         </div>
-      </Draggable>
+      </ResizableAndMovable>
     );
   }
 }
