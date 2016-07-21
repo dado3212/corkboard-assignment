@@ -8,7 +8,6 @@ class Note extends Component {
 
     this.state = {
       isEditing: false,
-      text: this.props.note.text,
     };
 
     // Binding statements
@@ -21,7 +20,7 @@ class Note extends Component {
   }
 
   onInputChange(event) {
-    this.setState({ text: event.target.value });
+    this.props.updateContent(event.target.value);
   }
 
   onDeleteClick(event) {
@@ -29,8 +28,9 @@ class Note extends Component {
   }
 
   onEditClick(event) {
-    this.props.updateContent(this.state.text);
-    this.setState({ isEditing: !this.state.isEditing });
+    this.setState({
+      isEditing: !this.state.isEditing,
+    });
   }
 
   onDrag(event, ui) {
@@ -57,11 +57,11 @@ class Note extends Component {
     if (this.state.isEditing) {
       return (
         <div className="content">
-          <textarea onChange={this.onInputChange} value={this.state.text} />
+          <textarea onChange={this.onInputChange} value={this.props.note.text} />
         </div>
       );
     } else {
-      return <div className="content" dangerouslySetInnerHTML={{ __html: marked(this.state.text) }} />;
+      return <div className="content" dangerouslySetInnerHTML={{ __html: marked(this.props.note.text) }} />;
     }
   }
 
