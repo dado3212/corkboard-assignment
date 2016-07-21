@@ -77,6 +77,7 @@ class Note extends Component {
         height={this.props.note.height}
         minWidth={200}
         minHeight={125}
+        canUpdatePositionByParent
         zIndex={this.props.note.zIndex}
         dragHandlerClassName=".pin"
       >

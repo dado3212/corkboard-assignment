@@ -66,9 +66,7 @@ class App extends Component {
   }
 
   updateSize(width, height, id) {
-    this.setState({
-      notes: this.state.notes.update(id, (n) => { return Object.assign({}, n, { width, height }); }),
-    });
+    firebase.updateNoteSize(width, height, id);
   }
 
   allNotes() {

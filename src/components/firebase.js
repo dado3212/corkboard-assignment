@@ -35,5 +35,8 @@ module.exports = {
   updateNoteContent: (text, id) => {
     database.ref('notes').child(id).update({ text });
   },
+  updateNoteSize: (width, height, id) => {
+    database.ref('notes').child(id).update({ width, height });
+  },
 };
 
