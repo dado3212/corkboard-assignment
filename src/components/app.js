@@ -22,9 +22,16 @@ class App extends Component {
 
   componentDidMount() {
     firebase.fetchNotes((snapshot) => {
-      this.setState({
-        notes: Immutable.Map(snapshot.val()),
-      });
+      if (this.state.notes.size === 0 && snapshot.val()) {
+        this.setState({
+          notes: Immutable.Map(snapshot.val()),
+          zIndex: Object.keys(snapshot.val()).length,
+        });
+      } else {
+        this.setState({
+          notes: Immutable.Map(snapshot.val()),
+        });
+      }
     });
   }
 
@@ -37,6 +44,7 @@ class App extends Component {
       width: 200,
       height: 125,
       zIndex: this.state.zIndex + 1,
+      isEditing: false,
     });
     this.setState({
       zIndex: this.state.zIndex + 1,
@@ -69,11 +77,16 @@ class App extends Component {
     firebase.updateNoteSize(width, height, id);
   }
 
+  updateEditing(isEditing, id) {
+    firebase.updateNoteEditing(isEditing, id);
+  }
+
   allNotes() {
     return this.state.notes.map((note, id) => {
       return (<Note
         note={note}
         delete={() => this.deleteNote(id)}
+        updateEditing={(isEditing) => this.updateEditing(isEditing, id)}
         updatePosition={(x, y) => this.updatePosition(x, y, id)}
         updateContent={(text) => this.updateContent(text, id)}
         updateSize={(width, height) => this.updateSize(width, height, id)}

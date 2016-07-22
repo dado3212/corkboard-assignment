@@ -38,5 +38,8 @@ module.exports = {
   updateNoteSize: (width, height, id) => {
     database.ref('notes').child(id).update({ width, height });
   },
+  updateNoteEditing: (isEditing, id) => {
+    database.ref('notes').child(id).update({ isEditing });
+  },
 };
 

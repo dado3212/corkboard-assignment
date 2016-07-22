@@ -6,10 +6,6 @@ class Note extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      isEditing: false,
-    };
-
     // Binding statements
     this.onInputChange = this.onInputChange.bind(this);
     this.onDeleteClick = this.onDeleteClick.bind(this);
@@ -28,9 +24,7 @@ class Note extends Component {
   }
 
   onEditClick(event) {
-    this.setState({
-      isEditing: !this.state.isEditing,
-    });
+    this.props.updateEditing(!this.props.note.isEditing);
   }
 
   onDrag(event, ui) {
@@ -46,7 +40,7 @@ class Note extends Component {
   }
 
   renderEditButton() {
-    if (this.state.isEditing) {
+    if (this.props.note.isEditing) {
       return <i onClick={this.onEditClick} className="fa fa-check" />;
     } else {
       return <i onClick={this.onEditClick} className="fa fa-pencil" />;
@@ -54,7 +48,7 @@ class Note extends Component {
   }
 
   renderContent() {
-    if (this.state.isEditing) {
+    if (this.props.note.isEditing) {
       return (
         <div className="content">
           <textarea onChange={this.onInputChange} value={this.props.note.text} />
